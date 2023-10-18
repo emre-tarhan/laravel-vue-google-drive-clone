@@ -4,7 +4,7 @@
            class="block w-full mr-2"
            v-model="form.search"
            autocomplete
-           placeholder="Search for files and folders" />
+           placeholder="Dosya adı veya klasör arayın.." />
     </form>
 </template>
 

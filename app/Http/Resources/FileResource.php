@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class FileResource extends JsonResource
 {
+    public static $wrap = false;
     /**
      * Transform the resource into an array.
      *
@@ -21,7 +22,7 @@ class FileResource extends JsonResource
             'parent_id' => $this->parent_id,
             'is_folder' => $this->is_folder,
             'mime' => $this->mime,
-            'size' => $this->size,
+            'size' => $this->get_file_size(),
             'owner' => $this->owner,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),

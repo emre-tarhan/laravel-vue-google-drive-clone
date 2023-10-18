@@ -32,7 +32,7 @@ class StoreFolderRequest extends ParentIdBaseRequest
     public function messages()
     {
         return [
-            'name.unique' => 'Folder ":input" already exists'
+            'name.unique' => '":input" isimli klasör zaten mevcut'
         ];
     }
 }
