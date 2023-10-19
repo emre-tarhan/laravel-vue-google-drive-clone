@@ -25,13 +25,20 @@
                     </div>
                 </li>
             </ol>
+            <div>
+                <DownloadFilesButton :all="allSelected" :ids="selectedIds"/>
+                <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />
+            </div>
         </nav>
-        <div class="flex-1 overflow-auto">
+        <div class="flex-1 overflow-auto max-h-[393px] rounded-lg">
             <table class="min-w-full">
                 <thead class="bg-gray-100 border-b">
                 <tr>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[30px] max-w-[30px]  pr-0">
+                        <Checkbox @change="onSelectAllChange" v-model:checked="allSelected" />
+                    </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Ad</th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Sahibi</th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Oluşturan</th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Son Güncelleme</th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Boyut</th>
                 </tr>
@@ -39,10 +46,15 @@
                 <tbody>
                 <tr
                     @dblclick="openFolder(file)"
-                    v-for="file of files.data"
+                    @click="$event => toggleFileSelect(file)"
+                    v-for="file of allFiles.data"
                     :key="file.id"
-                    class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
+                    class="border-b transition duration-300 ease-in-out cursor-pointer"
+                    :class="(selected[file.id] || allSelected) ? 'bg-blue-200 hover:bg-blue-300 border-b-blue-300' : 'bg-white hover:bg-gray-100'"
                 >
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-[30px] max-w-[30px] pr-0">
+                        <Checkbox @change="$event => onSelectCheckboxChange(file)" v-model="selected[file.id]" :checked="selected[file.id] || allSelected" />
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
                         <FileIcon :file="file" />
                         {{file.name}}
@@ -54,7 +66,7 @@
                 </tbody>
             </table>
 
-            <div v-if="!files.data.length" class="py-8 text-center text-md text-gray-400">
+            <div v-if="!allFiles.data.length" class="py-8 text-center text-md text-gray-400">
                 Burası sessiz görünüyor 🫥
             </div>
             <div ref="loadMoreIntersect">
@@ -71,15 +83,27 @@
     import {router, Link} from "@inertiajs/vue3";
     import {HomeIcon} from '@heroicons/vue/20/solid'
     import FileIcon from "@/Components/app/FileIcon.vue";
-    import {onMounted, ref} from "vue";
+    import {computed, onMounted, onUpdated, ref} from "vue";
+    import {httpGet} from "@/Helper/http-helper.js";
+    import Checkbox from "@/Components/Checkbox.vue";
+    import DeleteFilesButton from "@/Components/app/DeleteFilesButton.vue";
+    import DownloadFilesButton from "@/Components/app/DownloadFilesButton.vue";
 
+    const allSelected = ref(false)
+    const selected = ref({})
     const loadMoreIntersect = ref(null)
+    const allFiles = ref({
+        data: props.files.data,
+        next: props.files.links.next
+    })
 
-    const {files} = defineProps({
+    const props = defineProps({
         files: Object,
         folder: Object,
         ancestors: Object
     })
+
+    const selectedIds = computed(() => Object.entries(selected.value).filter(a => a[1]).map(a => a[0]))
 
     function openFolder (file)
     {
@@ -92,8 +116,57 @@
 
     function loadMore ()
     {
-        console.log('load more')
+        if (allFiles.value.next === null) {
+            return
+        }
+
+        httpGet(allFiles.value.next)
+            .then(res => {
+                allFiles.value.data = [...allFiles.value.data, ...res.data]
+                allFiles.value.next = res.links.next
+            })
     }
+
+    function onSelectAllChange () {
+        allFiles.value.data.forEach(f => {
+            selected.value[f.id] = allSelected.value
+        })
+    }
+
+    function toggleFileSelect (file)
+    {
+        selected.value[file.id] = !selected.value[file.id]
+        onSelectCheckboxChange(file)
+    }
+
+    function onSelectCheckboxChange (file)
+    {
+        if (!selected.value[file.id]) {
+            allSelected.value = false;
+        } else {
+            let checked = true;
+            for (let file of allFiles.value.data) {
+                if (!selected.value[file.id]) {
+                    checked = false
+                    break
+                }
+            }
+            allSelected.value = checked
+        }
+    }
+
+    function onDelete ()
+    {
+        allSelected.value = false
+        selected.value = {}
+    }
+
+    onUpdated(() => {
+        allFiles.value = {
+            data: props.files.data,
+            next: props.files.links.next
+        }
+    })
 
     onMounted(() => {
         const observer = new IntersectionObserver((entries) =>  entries.forEach(entry => entry.isIntersecting && loadMore()),{

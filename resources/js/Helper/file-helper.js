@@ -53,6 +53,11 @@ export function isExcel(file) {
 export function isZip(file) {
     return [
         'application/zip',
+        'application/x-zip-compressed',
+        'multipart/x-zip',
+        'application/vnd.rar',
+        'application/x-rar-compressed',
+        'application/octet-stream'
     ].includes(file.mime)
 }
 
