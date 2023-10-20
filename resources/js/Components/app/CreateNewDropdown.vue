@@ -1,7 +1,7 @@
 <template>
     <Menu as="div" class="relative block text-left">
         <MenuButton
-            class="flex w-full justify-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            class="flex w-full justify-center gap-x-1.5 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-md ring-1 ring-inset ring-gray-300 dark:ring-gray-800 dark:shadow-black transition-all duration-500 hover:bg-gray-50 dark:hover:bg-gray-900"
         >
             Yeni Oluştur
 
@@ -16,12 +16,12 @@
             leave-to-class="transform scale-95 opacity-0"
         >
             <MenuItems
-                class="absolute right-0 mt-2 w-full origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 mt-2 w-full origin-top-right divide-y divide-gray-100 dark:divide-neutral-800 rounded-md bg-white dark:bg-neutral-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
                 <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                         <a href="#" @click.prevent="showCreateFolderModal"
-                           class="text-gray-700 block px-4 py-2 text-sm">
+                           class="text-gray-700 dark:text-neutral-400 block px-4 py-2 text-sm">
                             Klasör Oluştur
                         </a>
                     </MenuItem>

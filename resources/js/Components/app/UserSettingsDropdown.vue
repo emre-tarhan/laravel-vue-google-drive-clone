@@ -2,11 +2,11 @@
     <Menu as="div" class="relative inline-block text-left">
         <div>
             <MenuButton
-                class="inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-800 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                class="inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-400 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
                 {{ $page.props.auth.user.name }}
                 <ChevronDownIcon
-                    class="ml-2 -mr-1 h-5 w-5 text-gray-800 hover:text-violet-100"
+                    class="ml-2 -mr-1 h-5 w-5 text-gray-800 hover:text-violet-100 dark:text-gray-400 dark:hover:text-gray-400"
                     aria-hidden="true"
                 />
             </MenuButton>
@@ -21,12 +21,14 @@
             leave-to-class="transform scale-95 opacity-0"
         >
             <MenuItems
-                class="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-neutral-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
                 <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
-                        <ResponsiveNavLink  :href="route('profile.edit')"
-                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                        <ResponsiveNavLink
+                            :href="route('profile.edit')"
+                            :active="$page.url === '/profile'"
+                        >
                             Profil
                         </ResponsiveNavLink>
                     </MenuItem>

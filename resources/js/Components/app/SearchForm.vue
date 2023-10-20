@@ -1,7 +1,7 @@
 <template>
     <form class="w-[600px] h-[80px] flex items-center">
         <TextInput type="text"
-           class="block w-full mr-2"
+           class="block w-full mr-2 dark:bg-neutral-900"
            v-model="form.search"
            autocomplete
            placeholder="Dosya adı veya klasör arayın.." />

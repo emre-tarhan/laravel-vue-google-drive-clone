@@ -2,7 +2,7 @@
     <nav class="min-w-[200px]">
             <Link :href="route('myFiles')" class="h-[80px] px-3 flex items-center gap-3">
                 <ApplicationLogo
-                    class="block w-5 w-auto fill-gray-900 text-gray-800"
+                    class="block w-5 w-auto fill-gray-900 dark:fill-gray-200 text-gray-800"
                 />
             </Link>
         <div class="px-3">
