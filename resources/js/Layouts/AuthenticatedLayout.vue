@@ -14,6 +14,9 @@
             :class="dragOver ? 'dropzone' : ''"
         >
             <template v-if="dragOver" class="text-gray-600 text-center py-6 text-md">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 mb-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                </svg>
                 Dosyaları yüklemek için buraya bırakın
             </template>
             <template v-else>
@@ -29,6 +32,7 @@
     </div>
     <ErrorDialog/>
     <FormProgress :form="fileUploadForm"/>
+    <Notification/>
 </template>
 
 <script setup>
@@ -36,10 +40,11 @@ import Navigation from "@/Components/app/Navigation.vue";
 import SearchForm from "@/Components/app/SearchForm.vue";
 import UserSettingsDropdown from "@/Components/app/UserSettingsDropdown.vue";
 import {onMounted, ref} from "vue";
-import {emitter, FILE_UPLOAD_STARTED, showErrorDialog} from "@/event-bus.js";
+import {emitter, FILE_UPLOAD_STARTED, showErrorDialog, showSuccessNotification} from "@/event-bus.js";
 import {useForm, usePage} from "@inertiajs/vue3";
 import FormProgress from "@/Components/app/FormProgress.vue";
 import ErrorDialog from "@/Components/ErrorDialog.vue";
+import Notification from "@/Components/Notification.vue";
 
 const page = usePage();
 
@@ -78,7 +83,7 @@ function uploadFiles(files) {
     fileUploadForm.post(route('file.store'), {
         preserveScroll: true,
         onSuccess: () => {
-
+            showSuccessNotification(`${files.length} yeni dosya eklendi!`)
         },
         onError: errors => {
             let message = '';

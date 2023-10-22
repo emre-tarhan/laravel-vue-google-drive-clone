@@ -22,7 +22,7 @@
     import ConfirmationDialog from "@/Components/ConfirmationDialog.vue";
     import {ref} from "vue";
     import {useForm, usePage} from "@inertiajs/vue3";
-    import {showErrorDialog} from "@/event-bus.js";
+    import {showErrorDialog, showSuccessNotification} from "@/event-bus.js";
 
     const page = usePage()
     const deleteFilesForm = useForm({
@@ -70,11 +70,16 @@
         } else {
             deleteFilesForm.ids = props.deleteIds
         }
+
         deleteFilesForm.delete(route('file.delete'), {
             onSuccess: () => {
                 showDeleteDialog.value = false
                 emit('delete')
-                // TODO show success notification (later)
+                if (props.deleteAll) {
+                    showSuccessNotification('Bu klasördeki tüm dosyalar silindi')
+                } else {
+                    showSuccessNotification(`${props.deleteIds.length} adet dosya silindi`)
+                }
             }
         })
     }

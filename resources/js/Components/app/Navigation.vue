@@ -12,7 +12,7 @@
                 <NavLink :href="route('myFiles')" :active="$page.url === '/my-files'">Dosyalarım</NavLink>
                 <NavLink href="/">Paylaşılanlar</NavLink>
                 <NavLink href="/">Gönderilenler</NavLink>
-                <NavLink href="/">Çöp Kutusu</NavLink>
+                <NavLink :href="route('trash')" :active="$page.url === '/trash'">Çöp Kutusu</NavLink>
             </div>
         </div>
     </nav>
