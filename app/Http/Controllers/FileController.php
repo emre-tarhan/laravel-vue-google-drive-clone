@@ -261,7 +261,7 @@ class FileController extends Controller
             }
         } else {
             $ids = $data['ids'] ?? [];
-            $children = File::query()->whereIn('id', $ids)->get();
+            $children = File::onlyTrashed()->whereIn('id', $ids)->get();
             foreach ($children as $child) {
                 $child->restore();
             }
