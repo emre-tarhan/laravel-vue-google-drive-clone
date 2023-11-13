@@ -1,7 +1,7 @@
 <template>
     <Head title="Çöp Kutusu - " />
     <authenticated-layout>
-        <nav class="flex items-center justify-end p-1 mb-3">>
+        <nav class="flex items-center justify-end p-1 mb-3">
             <div>
                 <DeleteForeverButton :all-selected="allSelected" :selected-ids="selectedIds" @delete="resetForm" />
                 <RestoreFilesButton :all-selected="allSelected" :selected-ids="selectedIds" @restore="resetForm" />
