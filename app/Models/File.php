@@ -81,4 +81,9 @@ class File extends Model
         $this->deleted_at = Carbon::now();
         return $this->save();
     }
+
+    public function deleteForever()
+    {
+
+    }
 }

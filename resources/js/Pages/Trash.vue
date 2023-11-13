@@ -3,6 +3,7 @@
     <authenticated-layout>
         <nav class="flex items-center justify-end p-1 mb-3">>
             <div>
+                <DeleteForeverButton :all-selected="allSelected" :selected-ids="selectedIds" />
                 <RestoreFilesButton :all-selected="allSelected" :selected-ids="selectedIds" />
             </div>
         </nav>
@@ -63,6 +64,7 @@
     import DeleteFilesButton from "@/Components/app/DeleteFilesButton.vue";
     import DownloadFilesButton from "@/Components/app/DownloadFilesButton.vue";
     import RestoreFilesButton from "@/Components/app/RestoreFilesButton.vue";
+    import DeleteForeverButton from "@/Components/app/DeleteForeverButton.vue";
 
     const allSelected = ref(false)
     const selected = ref({})

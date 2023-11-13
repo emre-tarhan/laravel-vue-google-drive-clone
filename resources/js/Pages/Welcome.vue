@@ -17,8 +17,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="" />
-
+    <Head title="welcome to" />
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-center bg-gray-50 bg-dots-darker dark:bg-dots-lighter dark:bg-gray-950 selection:bg-gray-200 selection:text-gray-800"
     >
@@ -30,7 +29,6 @@ defineProps({
             >
                 Panele Git
             </Link>
-
             <template v-else>
                 <Link
                     :href="route('login')"

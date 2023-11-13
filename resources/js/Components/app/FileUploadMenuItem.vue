@@ -1,7 +1,7 @@
 <template>
     <MenuItem v-slot="{ active }">
-        <a href="#" class="text-gray-700 dark:text-neutral-400 block px-4 py-2 text-sm relative">
-            Dosya Yükle
+        <a class="text-gray-700 dark:text-neutral-400 block px-4 py-2 text-sm relative">
+            <span class="cursor-pointer">Dosya Yükle</span>
             <input
                 @change="onChange"
                 type="file"

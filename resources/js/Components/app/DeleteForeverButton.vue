@@ -1,15 +1,17 @@
 <template>
     <button
         @click="onClick"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 dark:text-gray-300 dark:bg-emerald-800 dark:border-emerald-950 dark:hover:bg-emerald-900 dark:hover:text-gray-300 transition-all rounded-md ml-1 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l6-6m0 0l6 6m-6-6v12a6 6 0 01-12 0v-3" />
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 dark:text-gray-300 dark:bg-red-800 dark:border-red-950 dark:hover:bg-red-900 dark:hover:text-gray-300 transition-all rounded-md ml-1 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             class="w-4 h-4 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
         </svg>
-        Kurtar
+        Kalıcı Olarak Sil
     </button>
     <ConfirmationDialog
         :show="showConfirmationDialog"
-        message="Seçili dosyalar geri alınacak, emin misin?"
+        message="Seçili dosyalar geri alınamaz şekilde silinecek, emin misin?"
         @cancel="onCancel"
         @confirm="onConfirm"
     />
@@ -44,7 +46,7 @@
         }
     })
 
-    const emit = defineEmits(['restore'])
+    const emit = defineEmits(['delete'])
 
     function onClick ()
     {
@@ -69,10 +71,10 @@
             form.ids = props.selectedIds
         }
 
-        form.post(route('file.restore'), {
+        form.post(route('file.delete'), {
             onSuccess: () => {
                 showConfirmationDialog.value = false
-                emit('restore')
+                emit('delete')
                 if (props.allSelected) {
                     showSuccessNotification('Bu klasördeki tüm dosyaları kurtardın')
                 } else {
