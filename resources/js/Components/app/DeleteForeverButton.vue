@@ -67,18 +67,19 @@
     {
         if (props.allSelected) {
             form.all = true
+            form.ids = [];
         } else {
             form.ids = props.selectedIds
         }
 
-        form.post(route('file.delete'), {
+        form.delete(route('file.deleteForever'), {
             onSuccess: () => {
                 showConfirmationDialog.value = false
                 emit('delete')
                 if (props.allSelected) {
-                    showSuccessNotification('Bu klasördeki tüm dosyaları kurtardın')
+                    showSuccessNotification('Tüm dosyaları sildin')
                 } else {
-                    showSuccessNotification(`${props.selectedIds.length} adet dosya kurtarıldı`)
+                    showSuccessNotification(`${props.selectedIds.length} adet dosya sildin`)
                 }
             }
         })

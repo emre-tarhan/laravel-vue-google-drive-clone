@@ -84,6 +84,18 @@ class File extends Model
 
     public function deleteForever()
     {
+        $this->deleteFilesFromStorage([$this]);
+        $this->forceDelete();
+    }
 
+    public function deleteFilesFromStorage($files)
+    {
+        foreach ($files as $file) {
+            if ($file->is_folder) {
+                $this->deleteFilesFromStorage($file->children);
+            } else {
+                Storage::delete($file->storage_path);
+            }
+        }
     }
 }

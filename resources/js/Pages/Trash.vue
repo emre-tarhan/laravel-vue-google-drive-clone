@@ -3,8 +3,8 @@
     <authenticated-layout>
         <nav class="flex items-center justify-end p-1 mb-3">>
             <div>
-                <DeleteForeverButton :all-selected="allSelected" :selected-ids="selectedIds" />
-                <RestoreFilesButton :all-selected="allSelected" :selected-ids="selectedIds" />
+                <DeleteForeverButton :all-selected="allSelected" :selected-ids="selectedIds" @delete="resetForm" />
+                <RestoreFilesButton :all-selected="allSelected" :selected-ids="selectedIds" @restore="resetForm" />
             </div>
         </nav>
         <div class="flex-1 overflow-auto rounded-lg">
@@ -123,7 +123,7 @@
         }
     }
 
-    function onDelete ()
+    function resetForm ()
     {
         allSelected.value = false
         selected.value = {}
