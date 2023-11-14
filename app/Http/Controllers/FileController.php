@@ -8,6 +8,8 @@ use App\Http\Requests\StoreFolderRequest;
 use App\Http\Requests\TrashFilesRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
+use App\Models\StarredFile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +33,7 @@ class FileController extends Controller
             $folder = $this->getRoot();
         }
         $files = File::query()
+            ->with('starred')
             ->where('parent_id', $folder->id)
             ->where('created_by', Auth::id())
             ->orderBy('is_folder', 'desc')
@@ -292,5 +295,39 @@ class FileController extends Controller
         }
 
         return to_route('trash');
+    }
+
+    public function star(FilesActionRequest $request)
+    {
+        $data = $request->validated();
+        $parent = $request->parent;
+
+        $all = $data['all'] ?? false;
+        $ids = $data['ids'] ?? [];
+
+        if (!$all && empty($ids)) {
+            return [
+                'message' => 'Favorilemek için öğe seçmelisiniz..'
+            ];
+        }
+
+        if ($all) {
+            $children = $parent->children;
+        } else {
+            $children = File::find($ids);
+        }
+
+        $data = [];
+        foreach ($children as $child) {
+            $data[] = [
+                'file_id' => $child->id,
+                'user_id' => Auth::id(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
+        }
+
+        StarredFile::insert($data);
+        return to_route('myFiles');
     }
 }

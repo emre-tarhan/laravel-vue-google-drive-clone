@@ -1,6 +1,6 @@
 <template>
     <span class="w-6 h-6 inline-flex items-center justify-center mr-2">
-        <FolderIcon class="max-w-full" v-if="file.is_folder" />
+        <FolderIcon class="max-w-full text-gray-800 dark:text-gray-300" v-if="file.is_folder" />
         <template v-else>
             <img class="max-w-full" v-if="isAudio(file)" :src="`/images/icons/mp3.png`">
             <img class="max-w-full" v-else-if="isImage(file)" :src="`/images/icons/image.png`">

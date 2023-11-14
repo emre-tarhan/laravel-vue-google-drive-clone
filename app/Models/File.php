@@ -28,6 +28,12 @@ class File extends Model
         return $this->belongsTo(File::class, 'parent_id');
     }
 
+    public function starred ()
+    {
+        return $this->hasOne(StarredFile::class, 'file_id', 'id')
+            ->where('user_id', Auth::id());
+    }
+
     public function owner(): Attribute
     {
         return Attribute::make(
