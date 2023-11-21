@@ -38,6 +38,7 @@ class FileController extends Controller
             ->where('created_by', Auth::id())
             ->orderBy('is_folder', 'desc')
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         $files = FileResource::collection($files);
@@ -328,6 +329,6 @@ class FileController extends Controller
         }
 
         StarredFile::insert($data);
-        return to_route('myFiles');
+        return response('', 204);
     }
 }
