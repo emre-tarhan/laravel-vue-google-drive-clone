@@ -26,7 +26,7 @@
                     </div>
                 </li>
             </ol>
-            <div class="flex gap-x-1">
+            <div v-if="selectedIds.length > 0" class="flex gap-x-1 transition-all duration-1000">
                 <StarredFilesButton :all-selected="allSelected" :selected-ids="selectedIds" />
                 <DownloadFilesButton :all="allSelected" :ids="selectedIds" />
                 <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />

@@ -1,7 +1,7 @@
 <template>
     <button
         @click="onClick"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 dark:text-gray-300 dark:bg-red-800 dark:border-red-950 dark:hover:bg-red-900 dark:hover:text-gray-300 transition-all rounded-md ml-1 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 dark:text-gray-300 dark:bg-neutral-800 dark:border-neutral-800 dark:hover:bg-neutral-950 dark:hover:text-gray-300 transition-all rounded-md ml-1 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="w-4 h-4 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round"
