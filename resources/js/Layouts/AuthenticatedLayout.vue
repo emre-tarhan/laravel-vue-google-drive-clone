@@ -1,10 +1,19 @@
 <template>
     <div
-        :class="{'h-screen': page.url !== '/profile'}"
-        class="bg-gray-50 dark:bg-neutral-900 bg-dots-darker dark:bg-dots-lighter flex w-full gap-4"
+        class="flex w-full gap-4"
+        :class="{
+            'h-screen': page.url !== '/profile',
+            'bg-neutral-900 bg-dots-lighter' : isDarkMode,
+            'bg-gray-50 bg-dots-darker' : !isDarkMode
+        }"
     >
         <Navigation
-            class="bg-white dark:bg-neutral-950 ring-1 ring-inset ring-white dark:ring-black rounded-md ml-2 my-2"/>
+            class="bg-white ring-1 ring-inset rounded-md ml-2 my-2"
+            :class="{
+                'bg-neutral-950 ring-black' : isDarkMode,
+                'ring-white' : !isDarkMode
+            }"
+        />
 
         <main
             @drop.prevent="handleDrop"
@@ -20,11 +29,24 @@
                 Dosyaları yüklemek için buraya bırakın
             </template>
             <template v-else>
-                <div class="flex items-center justify-between w-full bg-white rounded-md my-2 px-6 ring-1 ring-inset ring-white dark:ring-black dark:bg-neutral-950">
+                <div
+                    class="flex items-center justify-between w-full rounded-md my-2 px-6 ring-1 ring-inset"
+                    :class="{
+                        'ring-black bg-neutral-950' : isDarkMode,
+                        'bg-white ring-white' : !isDarkMode
+                    }"
+                >
                     <SearchForm/>
+                    <button class="text-gray-300" @click="toggleDarkMode">{{ isDarkMode ? 'Açık Mod' : 'Koyu Mod' }}</button>
                     <UserSettingsDropdown/>
                 </div>
-                <div class="flex flex-1 flex-col overflow-hidden bg-white rounded-md p-6 mb-2 ring-1 ring-inset ring-white dark:ring-black dark:bg-neutral-950">
+                <div
+                    class="flex flex-1 flex-col overflow-hidden bg-white rounded-md p-6 mb-2 ring-1 ring-inset ring-white"
+                    :class="{
+                        'ring-black bg-neutral-950' : isDarkMode,
+                        '' : !isDarkMode
+                    }"
+                >
                     <slot/>
                 </div>
             </template>
@@ -39,7 +61,7 @@
 import Navigation from "@/Components/app/Navigation.vue";
 import SearchForm from "@/Components/app/SearchForm.vue";
 import UserSettingsDropdown from "@/Components/app/UserSettingsDropdown.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {emitter, FILE_UPLOAD_STARTED, showErrorDialog, showSuccessNotification} from "@/event-bus.js";
 import {useForm, usePage} from "@inertiajs/vue3";
 import FormProgress from "@/Components/app/FormProgress.vue";
@@ -101,6 +123,19 @@ function uploadFiles(files) {
         }
     })
 }
+
+const isDarkMode = ref(localStorage.getItem('darkMode') === 'true');
+
+const toggleDarkMode = () => {
+    isDarkMode.value = !isDarkMode.value;
+};
+
+watch(
+    () => isDarkMode.value,
+    (newVal) => {
+        localStorage.setItem('darkMode', newVal.toString());
+    }
+);
 
 onMounted(() => {
     emitter.on(FILE_UPLOAD_STARTED, uploadFiles)

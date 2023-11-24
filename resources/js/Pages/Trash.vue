@@ -1,8 +1,9 @@
 <template>
     <Head title="Çöp Kutusu - " />
     <authenticated-layout>
-        <nav class="flex items-center justify-end p-1 mb-3">
-            <div>
+        <nav class="flex items-center justify-between p-1 mb-3">
+            <p class="inline-flex items-center text-md gap-2 font-medium text-gray-600 hover:text-indigo-600 cursor-pointer">Çöp Kutusu</p>
+            <div v-if="selectedIds.length > 0">
                 <DeleteForeverButton :all-selected="allSelected" :selected-ids="selectedIds" @delete="resetForm" />
                 <RestoreFilesButton :all-selected="allSelected" :selected-ids="selectedIds" @restore="resetForm" />
             </div>

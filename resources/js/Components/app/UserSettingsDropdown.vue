@@ -1,6 +1,6 @@
 <template>
     <Menu as="div" class="relative inline-block text-left">
-        <div>
+        <div class="flex">
             <MenuButton
                 class="inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-400 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
@@ -26,16 +26,19 @@
                 <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                         <ResponsiveNavLink
-                            :href="route('profile.edit')"
+                            :href="$inertia.page('profile.edit')"
                             :active="$page.url === '/profile'"
                         >
                             Profil
                         </ResponsiveNavLink>
                     </MenuItem>
                     <MenuItem v-slot="{ active }">
-                        <ResponsiveNavLink  :href="route('logout')"
-                                            method="post" as="button"
-                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                        <ResponsiveNavLink
+                            :href="$inertia.page('logout')"
+                            method="post"
+                            as="button"
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                        >
                             Çıkış Yap
                         </ResponsiveNavLink>
                     </MenuItem>
@@ -46,7 +49,7 @@
 </template>
 
 <script setup>
-import {Menu, MenuButton, MenuItems, MenuItem} from '@headlessui/vue'
-import {ChevronDownIcon} from '@heroicons/vue/20/solid'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 </script>
