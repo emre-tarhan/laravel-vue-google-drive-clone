@@ -1,7 +1,7 @@
 <template>
     <modal :show="modelValue" @show="onShow" max-width="sm">
         <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-300">
                 Yeni Klasör Oluştur
             </h2>
             <div class="mt-6">
@@ -21,7 +21,7 @@
             <div class="mt-6 flex justify-end">
                 <SecondaryButton @click="closeModal">İptal</SecondaryButton>
                 <PrimaryButton
-                    class="ml-3"
+                    class="ml-3 uppercase"
                     :class="{'opacity-25': form.processing}"
                     @click="createFolder"
                     :disable="form.processing"

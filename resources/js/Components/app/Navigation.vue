@@ -9,7 +9,7 @@
             <CreateNewDropdown />
 
             <div class="py-3">
-                <NavLink :href="route('myFiles')" :active="$page.url === '/my-files'">Dosyalarım</NavLink>
+                <NavLink :href="route('myFiles')" :active="$page.url === '/home'">Dosyalarım</NavLink>
                 <NavLink href="/">Paylaşılanlar</NavLink>
                 <NavLink href="/">Gönderilenler</NavLink>
                 <NavLink :href="route('trash')" :active="$page.url === '/trash'">Çöp Kutusu</NavLink>

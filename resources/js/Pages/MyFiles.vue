@@ -2,7 +2,7 @@
     <Head title="Dosyalarım -" />
     <authenticated-layout>
         <nav class="flex items-center justify-between p-1 mb-3">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <ol class="inline-flex items-center">
                 <li v-for="ans of ancestors.data" :key="ans.id" class="inline-flex items-center">
                     <Link
                         v-if="!ans.parent_id"
@@ -10,23 +10,18 @@
                         class="inline-flex items-center text-sm gap-2 font-medium text-gray-600 hover:text-indigo-600"
                     >
                         <HomeIcon class="w-4 h-4"/>
-                        {{ $page.props.auth.user.name }}
+                        {{ exploit(ans.name) }}
                     </Link>
                     <div v-else class="flex items-center">
-                        <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
+
                         <Link :href="route('myFiles', {folder: ans.path})"
-                              class="ml-1 text-sm font-medium text-gray-600 hover:text-indigo-600 md:ml-2">
-                            {{ ans.name }}
+                              class="text-sm font-medium text-gray-600 hover:text-indigo-600">
+                            <span class="text-gray-600 px-0.5">/</span>{{ ans.name }}
                         </Link>
                     </div>
                 </li>
             </ol>
-            <div v-if="selectedIds.length > 0" class="flex gap-x-1 transition-all duration-1000">
+            <div v-if="selectedIds.length > 0" class="flex gap-x-1">
                 <StarredFilesButton :all-selected="allSelected" :selected-ids="selectedIds" />
                 <DownloadFilesButton :all="allSelected" :ids="selectedIds" />
                 <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />
@@ -42,7 +37,7 @@
                     <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left"></th>
                     <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Ad</th>
                     <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Oluşturan</th>
-                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Oluşturulma Tarihi</th>
+                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Son Güncelleme</th>
                     <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Boyut</th>
                 </tr>
                 </thead>
@@ -58,7 +53,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300 w-[30px] max-w-[30px] pr-0">
                         <Checkbox @change="$event => onSelectCheckboxChange(file)" v-model="selected[file.id]" :checked="selected[file.id] || allSelected" />
                     </td>
-                    <td class="px-6 py-4 max-w-[40px] text-sm font-medium text-yellow-500">
+                    <td class="pl-10 py-4 max-w-[40px] text-sm font-medium text-yellow-500">
                         <div @click.stop.prevent="favoriteToggle(file)">
                             <svg v-if="file.is_favorite" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
@@ -187,6 +182,12 @@
                 showSuccessNotification('Seçili dosyaları favoriledin!')
             }
         })
+    }
+
+    function exploit (name)
+    {
+        const term = name.split('@')
+        return term[0]
     }
 
     onUpdated(() => {

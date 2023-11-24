@@ -19,7 +19,7 @@ use Inertia\Inertia;
 
 class FileController extends Controller
 {
-    public function myFiles(Request $request, string $folder = null)
+    public function home(Request $request, string $folder = null)
     {
         if ($folder)
         {
