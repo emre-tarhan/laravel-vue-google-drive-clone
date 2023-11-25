@@ -3,14 +3,14 @@
         class="flex w-full gap-4 bg-gray-50 bg-dots-darker"
         :class="{
             'h-screen': page.url !== '/profile',
-            'bg-neutral-900 !bg-dots-lighter' : darkMode
+            '!bg-neutral-900 !bg-dots-lighter' : darkMode
         }"
     >
 
         <Navigation
             class="bg-white ring-1 ring-inset rounded-md ml-2 my-2 ring-white"
             :class="{
-                'bg-neutral-950 !ring-black' : darkMode
+                '!bg-neutral-950 !ring-black' : darkMode
             }"
         />
 
@@ -31,7 +31,7 @@
                 <div
                     class="flex items-center justify-between w-full rounded-md my-2 px-6 ring-1 ring-inset bg-white ring-white"
                     :class="{
-                        '!ring-black bg-neutral-950' : darkMode
+                        '!ring-black !bg-neutral-950' : darkMode
                     }"
                 >
                     <SearchForm/>
@@ -47,10 +47,8 @@
                     <UserSettingsDropdown/>
                 </div>
                 <div
-                    class="flex flex-1 flex-col overflow-hidden rounded-md p-6 mb-2 ring-1 ring-inset ring-white bg-white"
-                    :class="{
-                        '!ring-black bg-neutral-950' : darkMode
-                    }"
+                    class="flex flex-1 flex-col overflow-hidden rounded-md p-6 mb-2 ring-1 ring-inset"
+                    :class="darkMode === true ? 'ring-black bg-neutral-950' : 'ring-white bg-white'"
                 >
                     <slot/>
                 </div>
@@ -137,13 +135,6 @@ const toggleDarkMode = () => {
     emitter.emit(DISPLAY_MODE, darkMode.value);
 };
 
-watch(
-    () => darkMode.value,
-    (newVal) => {
-        localStorage.setItem('darkMode', newVal.toString());
-    }
-);
-
 onMounted(() => {
     emitter.on(FILE_UPLOAD_STARTED, uploadFiles)
 })
@@ -153,8 +144,6 @@ onMounted(() => {
         darkMode.value = newDarkMode
     })
 })
-
-
 </script>
 
 <style scoped>

@@ -38,7 +38,11 @@
                 >
                 <tr>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[30px] max-w-[30px] pr-0" :class="{'text-neutral-200' : darkMode}">
-                        <Checkbox @change="onSelectAllChange" v-model:checked="allSelected" />
+                        <Checkbox
+                            @change="onSelectAllChange"
+                            v-model:checked="allSelected"
+                            :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
+                        />
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left" :class="{'text-neutral-200' : darkMode}"></th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left" :class="{'text-neutral-200' : darkMode}">Dosya</th>
@@ -65,8 +69,16 @@
                     "
 
                 >
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300 w-[30px] max-w-[30px] pr-0">
-                        <Checkbox @change="$event => onSelectCheckboxChange(file)" v-model="selected[file.id]" :checked="selected[file.id] || allSelected" />
+                    <td
+                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-[30px] max-w-[30px] pr-0"
+                        :class="{'text-neutral-300' : darkMode}"
+                    >
+                        <Checkbox
+                            @change="$event => onSelectCheckboxChange(file)"
+                            v-model="selected[file.id]"
+                            :checked="selected[file.id] || allSelected"
+                            :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
+                        />
                     </td>
                     <td class="pl-10 py-4 max-w-[40px] text-sm font-medium text-yellow-500">
                         <div @click.stop.prevent="favoriteToggle(file)">
@@ -78,13 +90,13 @@
                             </svg>
                         </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300 flex items-center relative">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center relative" :class="{'text-neutral-300' : darkMode}">
                         <FileIcon :file="file" />
                         {{file.name}}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300">{{file.owner}}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300">{{file.updated_at}}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300">{{file.size}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" :class="{'text-neutral-300' : darkMode}">{{file.owner}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" :class="{'text-neutral-300' : darkMode}">{{file.updated_at}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" :class="{'text-neutral-300' : darkMode}">{{file.size}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -112,7 +124,7 @@
     import DeleteFilesButton from "@/Components/app/DeleteFilesButton.vue";
     import DownloadFilesButton from "@/Components/app/DownloadFilesButton.vue";
     import StarredFilesButton from "@/Components/app/StarredFilesButton.vue";
-    import {showSuccessNotification} from "@/event-bus.js";
+    import {DISPLAY_MODE, emitter, showSuccessNotification} from "@/event-bus.js";
 
     const allSelected = ref(false)
     const selected = ref({})
@@ -220,6 +232,13 @@
 
         observer.observe(loadMoreIntersect.value)
     })
+
+    onMounted(() => {
+        emitter.on(DISPLAY_MODE, (newDarkMode) => {
+            darkMode.value = newDarkMode
+        })
+    })
+
 </script>
 
 <style scoped>

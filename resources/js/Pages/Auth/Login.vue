@@ -44,7 +44,7 @@ const submit = () => {
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full text-gray-600"
                     v-model="form.email"
                     required
                     autofocus
@@ -80,7 +80,7 @@ const submit = () => {
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 dark:hover:text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                     Hesabına erişemiyor musun?
                 </Link>

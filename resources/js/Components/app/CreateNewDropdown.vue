@@ -1,7 +1,8 @@
 <template>
     <Menu as="div" class="relative block text-left">
         <MenuButton
-            class="flex w-full justify-center gap-x-1.5 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-md ring-1 ring-inset ring-gray-300 dark:ring-gray-800 dark:shadow-black transition-all duration-500 hover:bg-gray-50 dark:hover:bg-gray-900"
+            class="flex w-full justify-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-500"
+            :class="{'!text-gray-300 !ring-neutral-800 shadow-neutral-800 !bg-neutral-950' : darkMode}"
         >
             Yeni Oluştur
 
@@ -39,15 +40,25 @@
 <script setup>
     import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
     import CreateFolderModal from "@/Components/app/CreateFolderModal.vue";
-    import {ref} from "vue";
+    import {onMounted, ref} from "vue";
     import FileUploadMenuItem from "@/Components/app/FileUploadMenuItem.vue";
     import FolderUploadMenuItem from "@/Components/app/FolderUploadMenuItem.vue";
+    import {DISPLAY_MODE, emitter} from "@/event-bus.js";
 
     const createFolderModal = ref(false)
+
+    const darkMode = ref(localStorage.getItem('darkMode') === 'true');
+
     function showCreateFolderModal()
     {
         createFolderModal.value = true
     }
+
+    onMounted(() => {
+        emitter.on(DISPLAY_MODE, (newDarkMode) => {
+            darkMode.value = newDarkMode
+        })
+    })
 </script>
 
 <style scoped>
