@@ -21,16 +21,18 @@
                     </div>
                 </li>
             </ol>
-            <div v-if="selectedIds.length > 0" class="flex gap-x-1">
+            <div class="flex gap-x-1">
                 <label>
-                    Favoriler
+                    <span class="text-gray-700">Favoriler</span>
                     <Checkbox
                         @change="showOnlyFavorites"
+                        v-model:checked="onlyFavorites"
+                        class="ml-1"
                         :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
                     />
                 </label>
-                <DownloadFilesButton :all="allSelected" :ids="selectedIds" />
-                <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />
+                <DownloadFilesButton v-if="selectedIds.length > 0"  :all="allSelected" :ids="selectedIds" />
+                <DeleteFilesButton v-if="selectedIds.length > 0"  :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />
             </div>
         </nav>
         <div class="flex-1 overflow-auto rounded-lg">
@@ -133,12 +135,17 @@
 
     const page = usePage()
     const allSelected = ref(false)
+    const onlyFavorites = ref(false)
     const selected = ref({})
     const loadMoreIntersect = ref(null)
+
     const allFiles = ref({
         data: props.files.data,
         next: props.files.links.next
     })
+
+    let params = null
+
     const darkMode = ref(localStorage.getItem('darkMode') === 'true');
 
     const props = defineProps({
@@ -225,7 +232,12 @@
 
     function showOnlyFavorites ()
     {
-
+        if (onlyFavorites.value) {
+            params.set('favorites', 1)
+        } else {
+            params.delete('favorites', 1)
+        }
+        router.get(window.location.pathname+'?'+params.toString())
     }
 
     onUpdated(() => {
@@ -236,6 +248,9 @@
     })
 
     onMounted(() => {
+        params = new URLSearchParams(window.location.search)
+        onlyFavorites.value = params.get('favorites') == '1'
+
         const observer = new IntersectionObserver((entries) =>  entries.forEach(entry => entry.isIntersecting && loadMore()),{
             rootMargin: '-250px 0px 0px 0px'
         })

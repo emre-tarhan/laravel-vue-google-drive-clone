@@ -33,15 +33,24 @@ class FileController extends Controller
         {
             $folder = $this->getRoot();
         }
-        $files = File::query()
+
+        $favorites = (int)$request->get('favorites');
+
+        $query = File::query()
+            ->select('files.*')
             ->with('starred')
             ->where('parent_id', $folder->id)
             ->where('created_by', Auth::id())
             ->orderBy('is_folder', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->orderBy('files.created_at', 'desc')
+            ->orderBy('files.id', 'desc');
 
+        if ($favorites === 1) {
+            $query->join('starred_files', 'starred_files.file_id', 'files.id')
+                ->where('starred_files.user_id', Auth::id());
+        }
+
+        $files = $query->paginate(10);
         $files = FileResource::collection($files);
 
         if ($request->wantsJson()) {
