@@ -119,7 +119,7 @@
     import {HomeIcon} from '@heroicons/vue/20/solid'
     import FileIcon from "@/Components/app/FileIcon.vue";
     import {computed, onMounted, onUpdated, ref} from "vue";
-    import {httpGet} from "@/Helper/http-helper.js";
+    import {httpGet, httpPost} from "@/Helper/http-helper.js";
     import Checkbox from "@/Components/Checkbox.vue";
     import DeleteFilesButton from "@/Components/app/DeleteFilesButton.vue";
     import DownloadFilesButton from "@/Components/app/DownloadFilesButton.vue";
@@ -201,15 +201,10 @@
 
     function favoriteToggle (file)
     {
-        const form = useForm({
-            ids: [file.id]
-        })
-
-        httpPost()(route('file.star'), {
-            onSuccess: () => {
-                showSuccessNotification('Seçili dosyaları favoriledin!')
-            }
-        })
+        httpPost(route('file.star'), {id: file.id})
+            .then(() => {
+                showSuccessNotification('"' + file.name + '" favorilere eklendi.')
+            })
     }
 
     function exploit (name)

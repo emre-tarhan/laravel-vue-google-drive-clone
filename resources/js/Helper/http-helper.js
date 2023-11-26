@@ -8,12 +8,14 @@ export function httpGet (url)
     }).then(response => response.json())
 }
 
-export function httpPost (url)
+export function httpPost (url, data)
 {
     return fetch(url, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-        }
+        },
+        body: JSON.stringify(data)
     }).then(response => response.json())
 }

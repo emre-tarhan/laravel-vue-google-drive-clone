@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddToFavoritesRequest;
 use App\Http\Requests\FilesActionRequest;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StoreFolderRequest;
@@ -298,37 +299,28 @@ class FileController extends Controller
         return to_route('trash');
     }
 
-    public function star(FilesActionRequest $request)
+    public function star(AddToFavoritesRequest $request)
     {
         $data = $request->validated();
-        $parent = $request->parent;
+        $id = $data['id'] ?? [];
+        $file = File::find($id);
+        $user_id = Auth::id();
 
-        $all = $data['all'] ?? false;
-        $ids = $data['ids'] ?? [];
+        $starredFile = StarredFile::query()
+            ->where('file_id', $file->id)
+            ->where('user_id', $user_id)
+            ->first();
 
-        if (!$all && empty($ids)) {
-            return [
-                'message' => 'Favorilemek için öğe seçmelisiniz..'
-            ];
-        }
-
-        if ($all) {
-            $children = $parent->children;
+        if ($starredFile) {
+            $starredFile->delete();
         } else {
-            $children = File::find($ids);
-        }
-
-        $data = [];
-        foreach ($children as $child) {
-            $data[] = [
-                'file_id' => $child->id,
-                'user_id' => Auth::id(),
+            StarredFile::create([
+                'file_id' => $file->id,
+                'user_id' => $user_id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
-            ];
+            ]);
         }
-
-        StarredFile::insert($data);
-        return response('', 204);
+        return redirect()->back();
     }
 }
