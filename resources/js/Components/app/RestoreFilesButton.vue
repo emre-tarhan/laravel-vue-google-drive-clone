@@ -1,7 +1,9 @@
 <template>
     <button
         @click="onClick"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 dark:text-gray-300 dark:bg-neutral-800 dark:border-neutral-800 dark:hover:bg-neutral-950 dark:hover:text-gray-300 transition-all rounded-md ml-1 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+        class="inline-flex items-center px-4 py-2 text-sm font-medium border transition-all rounded-md focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+        :class="darkMode === true ? 'text-gray-300 bg-neutral-800 border-neutral-800 hover:bg-neutral-950 hover:text-gray-300' : 'text-gray-900 bg-white border-gray-200 hover:bg-gray-100 hover:text-blue-700'"
+    >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l6-6m0 0l6 6m-6-6v12a6 6 0 01-12 0v-3" />
         </svg>
@@ -19,9 +21,9 @@
 <script setup>
 
     import ConfirmationDialog from "@/Components/ConfirmationDialog.vue";
-    import {ref} from "vue";
+    import {onMounted, ref} from "vue";
     import {useForm, usePage} from "@inertiajs/vue3";
-    import {showErrorDialog, showSuccessNotification} from "@/event-bus.js";
+    import {DISPLAY_MODE, emitter, showErrorDialog, showSuccessNotification} from "@/event-bus.js";
 
     const page = usePage()
     const form = useForm({
@@ -31,6 +33,8 @@
     })
 
     const showConfirmationDialog = ref(false)
+
+    const darkMode = ref(localStorage.getItem('darkMode') === 'true');
 
     const props = defineProps({
         allSelected: {
@@ -82,6 +86,11 @@
         })
     }
 
+    onMounted(() => {
+        emitter.on(DISPLAY_MODE, (newDarkMode) => {
+            darkMode.value = newDarkMode
+        })
+    })
 </script>
 
 <style scoped>

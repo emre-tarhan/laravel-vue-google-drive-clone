@@ -1,7 +1,7 @@
 <template>
     <Head title="Dosyalarım -" />
     <authenticated-layout>
-        <nav class="flex items-center justify-between p-1 mb-3">
+        <nav class="flex items-center justify-between mb-2">
             <ol class="inline-flex items-center">
                 <li v-for="ans of ancestors.data" :key="ans.id" class="inline-flex items-center">
                     <Link
@@ -21,28 +21,30 @@
                     </div>
                 </li>
             </ol>
-            <div class="flex gap-x-1">
-                <label
-                    class="py-2 px-2 text-gray-400 outline-black rounded-md ring-2 ring-gray-300 shadow-md"
-                    :class="{'!text-gray-200 bg-neutral-900 !ring-black shadow-gray-black' : darkMode, '!ring-yellow-500 bg-gray-100 !text-yellow-500 font-semibold' : onlyFavorites}"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" fill="currentColor"
-                        class="w-4 h-4"
-                    >
-                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
-                    </svg>
-                    <Checkbox
-                        @change="showOnlyFavorites"
-                        v-model:checked="onlyFavorites"
-                        class="hidden"
-                        :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
-                    />
-                </label>
-                <DownloadFilesButton v-if="selectedIds.length > 0"  :all="allSelected" :ids="selectedIds" />
-                <DeleteFilesButton v-if="selectedIds.length > 0"  :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />
-            </div>
+                <div class="flex">
+                    <div class="flex gap-x-1">
+                        <DownloadFilesButton v-if="selectedIds.length > 0"  :all="allSelected" :ids="selectedIds" />
+                        <DeleteFilesButton v-if="selectedIds.length > 0"  :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete" />
+                        <label
+                            class="inline-flex items-center px-3 py-2.5 text-sm font-medium border transition-all rounded-md focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+                            :class="darkMode === true ? 'text-gray-300 bg-neutral-800 border-neutral-800 hover:bg-neutral-950 hover:text-gray-300' : 'text-gray-800 bg-white border-gray-200 hover:bg-gray-100 hover:text-blue-700', {'!ring-yellow-400 ring-1 ring-inset border-yellow-400 bg-neutral-900 !text-yellow-400' : onlyFavorites}"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24" fill="currentColor"
+                                class="w-4 h-4"
+                            >
+                                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                            </svg>
+                            <Checkbox
+                                @change="showOnlyFavorites"
+                                v-model:checked="onlyFavorites"
+                                class="hidden"
+                                :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
+                            />
+                        </label>
+                    </div>
+                </div>
         </nav>
         <div class="flex-1 overflow-auto rounded-lg">
             <table class="min-w-full">

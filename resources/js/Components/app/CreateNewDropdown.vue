@@ -17,12 +17,16 @@
             leave-to-class="transform scale-95 opacity-0"
         >
             <MenuItems
-                class="absolute right-0 mt-2 w-full origin-top-right divide-y divide-gray-100 dark:divide-neutral-800 rounded-md bg-white dark:bg-neutral-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 mt-2 w-full origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                :class="{'!divide-neutral-800 !bg-neutral-900' : darkMode}"
             >
                 <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
-                        <a @click.prevent="showCreateFolderModal"
-                           class="text-gray-700 dark:text-neutral-400 block px-4 py-2 text-sm cursor-pointer">
+                        <a
+                            @click.prevent="showCreateFolderModal"
+                            class="text-gray-700 block px-4 py-2 text-sm cursor-pointer"
+                            :class="{'text-neutral-400' : darkMode}"
+                        >
                             Klasör Oluştur
                         </a>
                     </MenuItem>

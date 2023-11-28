@@ -2,23 +2,38 @@
     <Head title="Çöp Kutusu - " />
     <authenticated-layout>
         <nav class="flex items-center justify-between p-1 mb-3">
-            <p class="inline-flex items-center text-md gap-2 font-medium text-gray-600 hover:text-indigo-600 cursor-pointer">Çöp Kutusu</p>
-            <div v-if="selectedIds.length > 0">
+            <p
+                class="inline-flex items-center text-md gap-2 font-bold text-lg text-gray-700 hover:text-indigo-600 cursor-pointer"
+                :class="{'!text-gray-200' : darkMode}"
+            >
+                Çöp Kutusu
+            </p>
+            <div v-if="selectedIds.length > 0" class="flex gap-x-1">
                 <DeleteForeverButton :all-selected="allSelected" :selected-ids="selectedIds" @delete="resetForm" />
                 <RestoreFilesButton :all-selected="allSelected" :selected-ids="selectedIds" @restore="resetForm" />
             </div>
         </nav>
         <div class="flex-1 overflow-auto rounded-lg">
             <table class="min-w-full">
-                <thead class="bg-gray-100 dark:bg-neutral-800 border-b dark:border-b-neutral-900">
+                <thead
+                    class="border-b"
+                    :class="{
+                        'bg-neutral-800 border-b-neutral-900' : darkMode,
+                        'bg-gray-100' : !darkMode
+                    }"
+                >
                 <tr>
-                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-200 px-6 py-4 text-left w-[30px] max-w-[30px]  pr-0">
-                        <Checkbox @change="onSelectAllChange" v-model:checked="allSelected" />
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[30px] max-w-[30px]  pr-0" :class="{'text-neutral-200' : darkMode}">
+                        <Checkbox
+                            @change="onSelectAllChange"
+                            v-model:checked="allSelected"
+                            :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
+                        />
                     </th>
-                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Dosya</th>
-                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Dizin</th>
-                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Oluşturulma Tarihi</th>
-                    <th class="text-sm font-medium text-gray-900 dark:text-neutral-300 px-6 py-4 text-left">Boyut</th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left" :class="{'text-neutral-200' : darkMode}">Dosya</th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left" :class="{'text-neutral-200' : darkMode}">Dizin</th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left" :class="{'text-neutral-200' : darkMode}">Oluşturulma Tarihi</th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left" :class="{'text-neutral-200' : darkMode}">Boyut</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,19 +41,32 @@
                     @click="$event => toggleFileSelect(file)"
                     v-for="file of allFiles.data"
                     :key="file.id"
-                    class="border-b dark:border-b-neutral-950 transition duration-300 ease-in-out cursor-pointer"
-                    :class="(selected[file.id] || allSelected) ? 'bg-blue-200 hover:bg-blue-300 border-b-blue-300 dark:bg-blue-800 dark:hover:bg-blue-600' : 'bg-white dark:bg-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-700'"
+                    class="border-b transition duration-300 ease-in-out cursor-pointer"
+                    :class="
+                        selected[file.id] || allSelected
+                          ? darkMode
+                            ? 'bg-blue-800 hover:bg-blue-600 border-b-blue-900'
+                            : 'bg-blue-200 hover:bg-blue-300 border-b-blue-300'
+                          : darkMode
+                            ? 'bg-neutral-800 hover:bg-neutral-700 border-b-neutral-950'
+                            : 'bg-white hover:bg-gray-100'
+                    "
                 >
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300 w-[30px] max-w-[30px] pr-0">
-                        <Checkbox @change="$event => onSelectCheckboxChange(file)" v-model="selected[file.id]" :checked="selected[file.id] || allSelected" />
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-[30px] max-w-[30px] pr-0">
+                        <Checkbox
+                            @change="$event => onSelectCheckboxChange(file)"
+                            v-model="selected[file.id]"
+                            :checked="selected[file.id] || allSelected"
+                            :class="{'bg-neutral-900 border-neutral-900 shadow-sm shadow-neutral-900' : darkMode}"
+                        />
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300 flex items-center">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center" :class="{'text-neutral-300' : darkMode}">
                         <FileIcon :file="file" class="dark:text-neutral-100" />
                         {{file.name}}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300">{{file.path === file.name ? '/' : file.path}}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300">{{file.updated_at}}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-neutral-300">{{file.size}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" :class="{'text-neutral-300' : darkMode}">{{file.path === file.name ? '/' : file.path}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" :class="{'text-neutral-300' : darkMode}">{{file.updated_at}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" :class="{'text-neutral-300' : darkMode}">{{file.size}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -66,6 +94,7 @@
     import DownloadFilesButton from "@/Components/app/DownloadFilesButton.vue";
     import RestoreFilesButton from "@/Components/app/RestoreFilesButton.vue";
     import DeleteForeverButton from "@/Components/app/DeleteForeverButton.vue";
+    import {DISPLAY_MODE, emitter} from "@/event-bus.js";
 
     const allSelected = ref(false)
     const selected = ref({})
@@ -82,6 +111,8 @@
     })
 
     const selectedIds = computed(() => Object.entries(selected.value).filter(a => a[1]).map(a => a[0]))
+
+    const darkMode = ref(localStorage.getItem('darkMode') === 'true');
 
     function loadMore ()
     {
@@ -143,6 +174,12 @@
         })
 
         observer.observe(loadMoreIntersect.value)
+    })
+
+    onMounted(() => {
+        emitter.on(DISPLAY_MODE, (newDarkMode) => {
+            darkMode.value = newDarkMode
+        })
     })
 </script>
 
