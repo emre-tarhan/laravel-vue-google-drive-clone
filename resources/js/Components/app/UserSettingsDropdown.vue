@@ -24,13 +24,15 @@
         >
             <MenuItems
                 class="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                :class="{'bg-neutral-900' : darkMode}"
+                :class="{'!bg-neutral-900' : darkMode}"
             >
                 <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                         <ResponsiveNavLink
                             :href="route('profile.edit')"
                             :active="$page.url === '/profile'"
+                            class="text-gray-700"
+                            :class="{'!text-gray-300' : darkMode}"
                         >
                             Profil
                         </ResponsiveNavLink>
@@ -39,7 +41,8 @@
                         <ResponsiveNavLink
                             :href="route('logout')"
                             method="post" as="button"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                            class="text-gray-700"
+                            :class="{'!text-gray-300' : darkMode}"
                         >
                             Çıkış Yap
                         </ResponsiveNavLink>
