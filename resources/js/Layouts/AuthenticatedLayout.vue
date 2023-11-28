@@ -35,15 +35,26 @@
                     }"
                 >
                     <SearchForm/>
-                    <button
-                        :class="{
-                            'text-gray-300' : darkMode,
-                            'text-gray-600' : !darkMode
-                        }"
-                        @click="toggleDarkMode"
-                    >
-                        {{ darkMode ? 'Açık Mod' : 'Koyu Mod' }} {{darkMode}}
-                    </button>
+                        <div
+                            class="dark-mode-switch"
+                            :class="{'dark' : darkMode}"
+                            @click="toggleDarkMode"
+                        >
+                            <div class="inner">
+                                <div class="bg"></div>
+                                <div class="circle"></div>
+                            </div>
+                            <div class="rays">
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                                <div class="ray"></div>
+                            </div>
+                        </div>
                     <UserSettingsDropdown/>
                 </div>
                 <div
@@ -64,7 +75,7 @@
 import Navigation from "@/Components/app/Navigation.vue";
 import SearchForm from "@/Components/app/SearchForm.vue";
 import UserSettingsDropdown from "@/Components/app/UserSettingsDropdown.vue";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref} from "vue";
 import {DISPLAY_MODE, emitter, FILE_UPLOAD_STARTED, showErrorDialog, showSuccessNotification} from "@/event-bus.js";
 import {useForm, usePage} from "@inertiajs/vue3";
 import FormProgress from "@/Components/app/FormProgress.vue";
@@ -136,10 +147,16 @@ const toggleDarkMode = () => {
 };
 
 onMounted(() => {
-    emitter.on(FILE_UPLOAD_STARTED, uploadFiles)
-})
+    const darkModeSwitch = document.querySelector('.dark-mode-switch');
 
-onMounted(() => {
+    darkModeSwitch.addEventListener('click', () => {
+        document.body.classList.toggle('switching', true);
+        setTimeout(() => {
+            document.body.classList.toggle('switching', false);
+        }, 200);
+    });
+
+    emitter.on(FILE_UPLOAD_STARTED, uploadFiles)
     emitter.on(DISPLAY_MODE, (newDarkMode) => {
         darkMode.value = newDarkMode
     })
@@ -168,5 +185,156 @@ onMounted(() => {
         .dark\:bg-dots-lighter {
             background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
         }
+    }
+
+    body.switching * {
+        transition: all 0.2s;
+    }
+    .dark-mode-switch {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .dark-mode-switch:hover .circle {
+        margin-left: 11px;
+        margin-top: -23px;
+    }
+    .dark-mode-switch .inner {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .dark-mode-switch .bg {
+        width: 20px;
+        height: 20px;
+        background-color: #202020;
+        border: 1px solid #f0f0f0;
+        border-radius: 10px;
+        transition: all 0s;
+    }
+    .dark-mode-switch .circle {
+        margin-left: 8px;
+        margin-top: -22px;
+        width: 20px;
+        height: 20px;
+        background-color: #f0f0f0;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .dark-mode-switch .rays .ray {
+        position: absolute;
+        left: 9px;
+        top: 11px;
+        width: 1.25px;
+        height: 3px;
+        background-color: #fbc02d;
+        transform-origin: 1px 0;
+        opacity: 0;
+    }
+    .dark-mode-switch .rays .ray:nth-child(1) {
+        transform: rotate(-180deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(2) {
+        transform: rotate(-225deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(3) {
+        transform: rotate(-270deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(4) {
+        transform: rotate(-315deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(5) {
+        transform: rotate(-360deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(6) {
+        transform: rotate(-405deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(7) {
+        transform: rotate(-450deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch .rays .ray:nth-child(8) {
+        transform: rotate(-495deg) translateY(15px);
+        transition: all 0.2s;
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(1) {
+        transform: rotate(-180deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(2) {
+        transform: rotate(-225deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(3) {
+        transform: rotate(-270deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(4) {
+        transform: rotate(-315deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(5) {
+        transform: rotate(-360deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(6) {
+        transform: rotate(-405deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(7) {
+        transform: rotate(-450deg) translateY(18px);
+    }
+    .dark-mode-switch.dark:hover .rays .ray:nth-child(8) {
+        transform: rotate(-495deg) translateY(18px);
+    }
+    .dark-mode-switch.dark .circle {
+        margin-left: 0;
+        margin-top: -20px;
+        background-color: #fbc02d;
+        border-color: #f9a825;
+    }
+    .dark-mode-switch.dark .rays .ray {
+        opacity: 1;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(1) {
+        transform: rotate(-180deg) translateY(15px);
+        transition: all 0.4s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(2) {
+        transform: rotate(-225deg) translateY(15px);
+        transition: all 0.6s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(3) {
+        transform: rotate(-270deg) translateY(15px);
+        transition: all 0.8s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(4) {
+        transform: rotate(-315deg) translateY(15px);
+        transition: all 1s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(5) {
+        transform: rotate(-360deg) translateY(15px);
+        transition: all 1.2s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(6) {
+        transform: rotate(-405deg) translateY(15px);
+        transition: all 1.4s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(7) {
+        transform: rotate(-450deg) translateY(15px);
+        transition: all 1.6s;
+    }
+    .dark-mode-switch.dark .rays .ray:nth-child(8) {
+        transform: rotate(-495deg) translateY(15px);
+        transition: all 1.8s;
     }
 </style>

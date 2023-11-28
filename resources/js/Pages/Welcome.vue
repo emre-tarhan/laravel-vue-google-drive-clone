@@ -1,21 +1,3 @@
-<script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-
-defineProps({
-    canLogin: {
-        type: Boolean
-    },
-    canRegister: {
-        type: Boolean
-    },
-    appVersion: {
-        type: String,
-        required: true
-    }
-});
-</script>
-
 <template>
     <Head title="welcome to" />
     <div
@@ -25,7 +7,7 @@ defineProps({
             <Link
                 v-if="$page.props.auth.user"
                 :href="route('myFiles')"
-                class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-gray-400"
+                class="px-3 py-2 rounded-md bg-neutral-800 text-gray-100 font-semibold hover:text-gray-200 focus:outline focus:outline-2 focus:rounded-sm focus:outline-gray-400"
             >
                 Panele Git
             </Link>
@@ -123,6 +105,32 @@ defineProps({
         </div>
     </div>
 </template>
+
+<script setup>
+import {Head, Link, usePage} from '@inertiajs/vue3';
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import {onMounted} from "vue";
+
+defineProps({
+    canLogin: {
+        type: Boolean
+    },
+    canRegister: {
+        type: Boolean
+    },
+    appVersion: {
+        type: String,
+        required: true
+    }
+})
+
+onMounted(() => {
+    const page = usePage()
+    if (page.props.isAuthenticated) {
+        Inertia.location('myFiles')
+    }
+})
+</script>
 
 <style>
 .bg-dots-darker {
