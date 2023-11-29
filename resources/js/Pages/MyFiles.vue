@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dosyalarım -" />
+    <Head :title="pageTitle + '\n'" />
     <authenticated-layout>
         <nav class="flex items-center justify-between mb-2">
             <ol class="inline-flex items-center">
@@ -156,6 +156,12 @@
     })
 
     let params = null
+
+    const ancestors = props.ancestors
+
+    const pageTitle = computed(() => {
+        return ancestors.data.map(ans => exploit(ans.name) + '/').join('')
+    });
 
     const darkMode = ref(localStorage.getItem('darkMode') === 'true');
 

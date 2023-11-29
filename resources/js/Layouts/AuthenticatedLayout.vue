@@ -35,8 +35,9 @@
                     }"
                 >
                     <SearchForm/>
+                    <div class="flex gap-x-4">
                         <div
-                            class="dark-mode-switch"
+                            class="dark-mode-switch mt-2"
                             :class="{'dark' : darkMode}"
                             @click="toggleDarkMode"
                         >
@@ -55,7 +56,8 @@
                                 <div class="ray"></div>
                             </div>
                         </div>
-                    <UserSettingsDropdown/>
+                        <UserSettingsDropdown/>
+                    </div>
                 </div>
                 <div
                     class="flex flex-1 flex-col overflow-hidden rounded-md p-6 mb-2 ring-1 ring-inset"
