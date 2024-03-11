@@ -21,21 +21,21 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 
 <template>
     <GuestLayout>
-        <Head title="Email Verification" />
+        <Head title="E-Posta Doğrulama •" />
 
         <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your email address by clicking on the link
-            we just emailed to you? If you didn't receive the email, we will gladly send you another.
+            Kaydolduğunuz için teşekkürler! Başlamadan önce, bağlantıya tıklayarak e-posta adresinizi doğrulayabilir misiniz?
+            size e-posta gönderdik mi? E-postayı almadıysanız, size memnuniyetle bir tane daha göndeririz.
         </div>
 
         <div class="mb-4 font-medium text-sm text-green-600" v-if="verificationLinkSent">
-            A new verification link has been sent to the email address you provided during registration.
+            Kayıt sırasında verdiğiniz e-posta adresine yeni bir doğrulama bağlantısı gönderilmiştir.
         </div>
 
         <form @submit.prevent="submit">
             <div class="mt-4 flex items-center justify-between">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Resend Verification Email
+                    Doğrulama E-postasını Yeniden Gönder
                 </PrimaryButton>
 
                 <Link
@@ -43,7 +43,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                     method="post"
                     as="button"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >Log Out</Link
+                    >Çıkış Yap</Link
                 >
             </div>
         </form>

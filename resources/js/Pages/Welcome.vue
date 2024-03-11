@@ -1,5 +1,5 @@
 <template>
-    <Head title="welcome to" />
+    <!-- <Head title="Hoşgeldin •" /> -->
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-center bg-gray-50 bg-dots-darker selection:bg-gray-200 selection:text-gray-800"
     >

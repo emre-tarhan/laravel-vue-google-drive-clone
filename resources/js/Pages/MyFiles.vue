@@ -158,7 +158,6 @@
     let params = null
 
     const ancestors = props.ancestors
-
     const pageTitle = computed(() => {
         return ancestors.data.map(ans => exploit(ans.name) + '/').join('')
     });
@@ -250,9 +249,9 @@
     function showOnlyFavorites ()
     {
         if (onlyFavorites.value) {
-            params.set('favorites', 1)
+            params.set('favorites', true)
         } else {
-            params.delete('favorites', 1)
+            params.delete('favorites', true)
         }
         router.get(window.location.pathname+'?'+params.toString())
     }
@@ -266,7 +265,7 @@
 
     onMounted(() => {
         params = new URLSearchParams(window.location.search)
-        onlyFavorites.value = params.get('favorites') == '1'
+        onlyFavorites.value = params.get('favorites') == 'true'
 
         const observer = new IntersectionObserver((entries) =>  entries.forEach(entry => entry.isIntersecting && loadMore()),{
             rootMargin: '-250px 0px 0px 0px'

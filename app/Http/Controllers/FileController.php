@@ -34,7 +34,7 @@ class FileController extends Controller
             $folder = $this->getRoot();
         }
 
-        $favorites = (int)$request->get('favorites');
+        $favorites = (bool)$request->get('favorites');
 
         $query = File::query()
             ->select('files.*')
@@ -45,7 +45,7 @@ class FileController extends Controller
             ->orderBy('files.created_at', 'desc')
             ->orderBy('files.id', 'desc');
 
-        if ($favorites === 1) {
+        if ($favorites === true) {
             $query->join('starred_files', 'starred_files.file_id', 'files.id')
                 ->where('starred_files.user_id', Auth::id());
         }
@@ -60,7 +60,7 @@ class FileController extends Controller
         $ancestors = FileResource::collection([...$folder->ancestors, $folder]);
 
         $folder = new FileResource($folder);
-
+        
         return Inertia::render('MyFiles', compact('files', 'folder', 'ancestors'));
     }
 

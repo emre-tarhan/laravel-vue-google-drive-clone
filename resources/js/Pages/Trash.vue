@@ -1,5 +1,5 @@
 <template>
-    <Head title="Çöp Kutusu - " />
+    <Head title="Çöp Kutusu • " />
     <authenticated-layout>
         <nav class="flex items-center justify-between p-1 mb-3">
             <p
